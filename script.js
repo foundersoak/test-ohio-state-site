@@ -202,25 +202,18 @@ function splitWords(el) {
 }
 
 /* --------------------------------------------------------------------------
-   IMAGE FALLBACKS - every site image is referenced as .jpg; if that 404s
-   we retry once with .png (so either extension works in /images). If a
-   precinct render is missing in both formats, show a "coming soon" tile.
+   IMAGE FALLBACKS - site images are referenced as .jpg; if that 404s we
+   retry once with .png so either extension works in /images. (The zoom
+   detail card handles its own image fallback in initPlanZoom.)
    -------------------------------------------------------------------------- */
 
-document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
+document.querySelectorAll('.masterplan-stage > img, .closing-bg, .hero-fallback').forEach((img) => {
   img.addEventListener('error', () => {
     if (!img.dataset.retriedExt) {
       img.dataset.retriedExt = 'true';
       img.src = img.src.endsWith('.png')
         ? img.src.replace(/\.png$/, '.jpg')
         : img.src.replace(/\.jpg$/, '.png');
-      return;
-    }
-    const wrap = img.closest('.precinct-media');
-    if (wrap) {
-      wrap.classList.add('is-placeholder');
-      wrap.dataset.title = img.dataset.placeholderTitle || 'Precinct';
-      img.remove();
     }
   });
 });
@@ -246,10 +239,48 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
 /* --------------------------------------------------------------------------
    MASTER PLAN CLICK-TO-ZOOM
    Clicking a pin zooms the aerial toward that precinct and slides in a
-   detail card (content pulled from the precinct panels, single source of
-   truth). ESC, the close button, or the dimmed backdrop zooms back out.
-   The pin's href still works as a plain anchor if JS fails.
+   detail card with that precinct's render, story, and revenue line. ESC,
+   the close button, or the dimmed backdrop zooms back out.
+   EDIT: precinct copy lives in the PRECINCTS object below.
    -------------------------------------------------------------------------- */
+
+const PRECINCTS = {
+  amphitheater: {
+    eyebrow: 'Precinct 01',
+    title: 'The Amphitheater',
+    copy: "A 4,300-seat open-air venue under a white tensile roof, with the Horseshoe itself as the backdrop. Concerts, commencements, watch parties, and community events, programmed year-round to anchor the district's nightlife and give Columbus a stage it doesn't have.",
+    value: 'Athletics upside: ticketing share · naming rights · sponsorship · food and beverage',
+    image: 'images/amphitheater.jpg',
+  },
+  'scarlet-spine': {
+    eyebrow: 'Precinct 02',
+    title: 'The Scarlet Spine',
+    copy: 'A pedestrian retail promenade running on a straight axis to the stadium gates: restaurants, flagship retail, and Buckeye-first storefronts that turn the walk to the game into the destination itself.',
+    value: 'Athletics upside: retail leases · flagship team store · brand activations',
+    image: 'images/scarlet-spine.jpg',
+  },
+  hotel: {
+    eyebrow: 'Precinct 03',
+    title: 'Buckeye Tower',
+    copy: "A full-service hotel and conference venue overlooking the stadium, serving recruits' families, visiting teams, alumni weekends, and the university's year-round events calendar.",
+    value: 'Athletics upside: ground lease participation · recruiting hospitality · naming partner',
+    image: 'images/hotel-tower.jpg',
+  },
+  riverfront: {
+    eyebrow: 'Precinct 04',
+    title: 'The Riverfront',
+    copy: 'The Olentangy edge, opened up: a landscaped promenade, terraced steps to the water, a signature pedestrian bridge, and parkland on the far bank that ties the district to the river.',
+    value: 'Civic upside: public space · trail connections · land value uplift',
+    image: 'images/riverfront.jpg',
+  },
+  residential: {
+    eyebrow: 'Precinct 05',
+    title: 'Residential Towers',
+    copy: "Market-rate and graduate residences with stadium views: a built-in population that keeps the district's restaurants, shops, and riverfront busy every day of the year.",
+    value: 'University upside: ground lease income · year-round district population',
+    image: 'images/residential.jpg',
+  },
+};
 
 (function initPlanZoom() {
   const stage = document.querySelector('.masterplan-stage');
@@ -262,17 +293,34 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
   const speed = reducedMotion ? 0 : 1; // collapse animation under reduced motion
   let openPin = null;
 
-  function open(pin) {
-    const article = document.querySelector(pin.getAttribute('href'));
-    if (!article) return;
+  function setCardMedia(data) {
+    const media = field('.plan-detail-media');
+    const mediaImg = media.querySelector('img');
+    media.classList.remove('is-placeholder');
+    media.dataset.title = data.title;
+    mediaImg.hidden = false;
+    mediaImg.dataset.retried = '';
+    mediaImg.onerror = () => {
+      if (!mediaImg.dataset.retried) {
+        mediaImg.dataset.retried = '1';
+        mediaImg.src = data.image.replace(/\.jpg$/, '.png');
+      } else {
+        mediaImg.hidden = true;
+        media.classList.add('is-placeholder');
+      }
+    };
+    mediaImg.src = data.image;
+  }
 
-    field('.plan-detail-eyebrow').textContent = article.querySelector('.eyebrow').textContent;
-    field('.plan-detail-title').textContent = article.querySelector('h3').textContent;
-    field('.plan-detail-copy').textContent =
-      article.querySelector('.precinct-copy p[data-reveal]').textContent.replace(/\s+/g, ' ').trim();
-    field('.plan-detail-value').textContent =
-      article.querySelector('.precinct-value')?.textContent ?? '';
-    field('.plan-detail-link').setAttribute('href', pin.getAttribute('href'));
+  function open(pin) {
+    const data = PRECINCTS[pin.dataset.precinct];
+    if (!data) return;
+
+    field('.plan-detail-eyebrow').textContent = data.eyebrow;
+    field('.plan-detail-title').textContent = data.title;
+    field('.plan-detail-copy').textContent = data.copy;
+    field('.plan-detail-value').textContent = data.value;
+    setCardMedia(data);
 
     openPin = pin;
     stage.classList.add('is-zoomed');
@@ -322,17 +370,13 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
       .to(pins, { autoAlpha: 1, duration: 0.35 * speed }, 0.3 * speed);
   }
 
-  pins.forEach((pin) => pin.addEventListener('click', (e) => {
-    e.preventDefault();
+  pins.forEach((pin) => pin.addEventListener('click', () => {
     openPin ? close() : open(pin);
   }));
 
   field('.plan-detail-close').addEventListener('click', close);
   dim.addEventListener('click', close);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-
-  // "Read the full precinct" closes the zoom, then the anchor scrolls down
-  field('.plan-detail-link').addEventListener('click', close);
 })();
 
 /* --------------------------------------------------------------------------
@@ -450,33 +494,6 @@ function initAnimations() {
     ease: 'back.out(1.6)',
     stagger: 0.3,
     scrollTrigger: { trigger: '.masterplan-stage', start: 'top 60%', once: true },
-  });
-
-  /* --- Precinct media: clip-path wipe + gentle parallax ------------------ */
-  document.querySelectorAll('[data-clip]').forEach((media) => {
-    const fromRight = media.closest('.precinct-flip') !== null;
-    gsap.fromTo(media,
-      { clipPath: fromRight ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)' },
-      {
-        clipPath: 'inset(0 0% 0 0%)',
-        duration: 1.1,
-        ease: 'power4.inOut',
-        scrollTrigger: { trigger: media, start: 'top 75%', once: true },
-      }
-    );
-
-    const img = media.querySelector('img');
-    if (img) {
-      gsap.fromTo(img,
-        { yPercent: -6, scale: 1.12 },
-        {
-          yPercent: 6,
-          scale: 1.12,
-          ease: 'none',
-          scrollTrigger: { trigger: media, start: 'top bottom', end: 'bottom top', scrub: true },
-        }
-      );
-    }
   });
 
   /* --- Phasing: horizontal pinned scroll (desktop only) ------------------ */
