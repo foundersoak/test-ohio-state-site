@@ -293,25 +293,6 @@ const PRECINCTS = {
   const speed = reducedMotion ? 0 : 1; // collapse animation under reduced motion
   let openPin = null;
 
-  function setCardMedia(data) {
-    const media = field('.plan-detail-media');
-    const mediaImg = media.querySelector('img');
-    media.classList.remove('is-placeholder');
-    media.dataset.title = data.title;
-    mediaImg.hidden = false;
-    mediaImg.dataset.retried = '';
-    mediaImg.onerror = () => {
-      if (!mediaImg.dataset.retried) {
-        mediaImg.dataset.retried = '1';
-        mediaImg.src = data.image.replace(/\.jpg$/, '.png');
-      } else {
-        mediaImg.hidden = true;
-        media.classList.add('is-placeholder');
-      }
-    };
-    mediaImg.src = data.image;
-  }
-
   function open(pin) {
     const data = PRECINCTS[pin.dataset.precinct];
     if (!data) return;
@@ -320,7 +301,6 @@ const PRECINCTS = {
     field('.plan-detail-title').textContent = data.title;
     field('.plan-detail-copy').textContent = data.copy;
     field('.plan-detail-value').textContent = data.value;
-    setCardMedia(data);
 
     openPin = pin;
     stage.classList.add('is-zoomed');
@@ -329,23 +309,36 @@ const PRECINCTS = {
     /* Frame the precinct rather than the pin: scale plus translate so the
        focus point lands in the area the detail card leaves clear. Focus
        defaults to the pin position; override per pin with data-fx / data-fy
-       (percent coordinates of the precinct's visual center) and data-zoom. */
+       (percent coordinates of the precinct's visual center) and data-zoom.
+       The card sits opposite the precinct so it never covers it. */
     const isMobile = window.matchMedia('(max-width: 640px)').matches;
     const zoom = Number(pin.dataset.zoom) || (isMobile ? 1.5 : 1.8);
     const rect = stage.getBoundingClientRect();
     const fx = (parseFloat(pin.dataset.fx) || parseFloat(pin.style.getPropertyValue('--x'))) / 100;
     const fy = (parseFloat(pin.dataset.fy) || parseFloat(pin.style.getPropertyValue('--y'))) / 100;
-    const targetX = isMobile ? 0.5 : 0.36;  // card occupies the right side on desktop
+    const cardOnLeft = !isMobile && fx > 0.5;
+    card.classList.toggle('plan-detail-left', cardOnLeft);
+    const targetX = isMobile ? 0.5 : (cardOnLeft ? 0.64 : 0.36);
     const targetY = isMobile ? 0.4 : 0.5;   // bottom sheet covers the lower part on mobile
     // Clamp the translate so the scaled image never reveals its edges
     const x = gsap.utils.clamp(rect.width * (1 - zoom), 0, (targetX - fx * zoom) * rect.width);
     const y = gsap.utils.clamp(rect.height * (1 - zoom), 0, (targetY - fy * zoom) * rect.height);
 
+    // Spotlight: the dim layer gets a clear radial hole over the precinct's
+    // final on-screen position, so the selection stays lit while the rest
+    // of the plan falls dark
+    const sx = (fx * zoom + x / rect.width) * 100;
+    const sy = (fy * zoom + y / rect.height) * 100;
+    dim.style.background =
+      `radial-gradient(circle at ${sx}% ${sy}%, ` +
+      'rgba(26, 26, 26, 0) 0%, rgba(26, 26, 26, 0.02) 16%, ' +
+      'rgba(26, 26, 26, 0.38) 38%, rgba(26, 26, 26, 0.66) 60%)';
+
     gsap.set(img, { transformOrigin: '0 0' });
     gsap.timeline({ defaults: { ease: 'power3.inOut' } })
       .to(pins, { autoAlpha: 0, duration: 0.25 * speed }, 0)
       .to(img, { scale: zoom, x, y, duration: 0.9 * speed }, 0)
-      .to(dim, { autoAlpha: 1, duration: 0.6 * speed }, 0)
+      .to(dim, { autoAlpha: 1, duration: 0.7 * speed }, 0.1 * speed)
       .fromTo(card, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.5 * speed }, 0.35 * speed);
 
     field('.plan-detail-close').focus();
