@@ -351,6 +351,7 @@ img.vision-watermark-img {
 .masterplan-stage {
   position: relative;
   width: 100%;
+  overflow: hidden; /* contains the click-to-zoom scale */
 }
 
 .masterplan-stage > img {
@@ -436,6 +437,106 @@ img.vision-watermark-img {
 /* On small screens labels wrap the layout - shrink and allow stacking */
 @media (max-width: 640px) {
   .pin-label { font-size: 0.55rem; padding: 0.3rem 0.5rem; }
+}
+
+/* Click-to-zoom detail view on the master plan */
+.plan-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.masterplan-stage.is-zoomed .plan-dim {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.plan-detail {
+  position: absolute;
+  top: 50%;
+  right: clamp(1rem, 5vw, 4rem);
+  transform: translateY(-50%);
+  width: min(420px, calc(100% - 2rem));
+  background: rgba(245, 245, 240, 0.97);
+  padding: 2.5rem 2.25rem 2.25rem;
+  box-shadow: 0 30px 80px rgba(26, 26, 26, 0.35);
+  z-index: 3;
+}
+
+.plan-detail[hidden] { display: none; }
+
+.plan-detail-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  border: 0;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--gray);
+  cursor: pointer;
+}
+
+.plan-detail-close:hover { color: var(--ink); }
+
+.plan-detail .plan-detail-eyebrow { margin-bottom: 0.9rem; }
+
+.plan-detail-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.9rem;
+}
+
+.plan-detail-copy {
+  color: var(--gray);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.plan-detail-value {
+  margin-top: 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 2px solid var(--scarlet);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.plan-detail-link {
+  display: inline-block;
+  margin-top: 1.4rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--scarlet);
+  text-decoration: none;
+  border-bottom: 2px solid var(--scarlet);
+  padding-bottom: 0.2rem;
+}
+
+.plan-detail-link:hover { color: #960000; border-color: #960000; }
+
+/* Bottom sheet on small screens */
+@media (max-width: 640px) {
+  .plan-detail {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    transform: none;
+    padding: 2rem 1.5rem 1.75rem;
+  }
 }
 
 /* --------------------------------------------------------------------------

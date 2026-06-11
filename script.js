@@ -244,6 +244,88 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
 })(['images/block-o.svg', 'images/block-o.png', 'images/block-o.jpg']);
 
 /* --------------------------------------------------------------------------
+   MASTER PLAN CLICK-TO-ZOOM
+   Clicking a pin zooms the aerial toward that precinct and slides in a
+   detail card (content pulled from the precinct panels, single source of
+   truth). ESC, the close button, or the dimmed backdrop zooms back out.
+   The pin's href still works as a plain anchor if JS fails.
+   -------------------------------------------------------------------------- */
+
+(function initPlanZoom() {
+  const stage = document.querySelector('.masterplan-stage');
+  const img = stage.querySelector('img');
+  const dim = stage.querySelector('.plan-dim');
+  const pins = gsap.utils.toArray(stage.querySelectorAll('.pin'));
+  const card = document.getElementById('plan-detail');
+  const field = (sel) => card.querySelector(sel);
+
+  const speed = reducedMotion ? 0 : 1; // collapse animation under reduced motion
+  let openPin = null;
+
+  function open(pin) {
+    const article = document.querySelector(pin.getAttribute('href'));
+    if (!article) return;
+
+    field('.plan-detail-eyebrow').textContent = article.querySelector('.eyebrow').textContent;
+    field('.plan-detail-title').textContent = article.querySelector('h3').textContent;
+    field('.plan-detail-copy').textContent =
+      article.querySelector('.precinct-copy p[data-reveal]').textContent.replace(/\s+/g, ' ').trim();
+    field('.plan-detail-value').textContent =
+      article.querySelector('.precinct-value')?.textContent ?? '';
+    field('.plan-detail-link').setAttribute('href', pin.getAttribute('href'));
+
+    openPin = pin;
+    stage.classList.add('is-zoomed');
+    card.hidden = false;
+
+    // Zoom toward the clicked pin's position on the image
+    const zoom = window.matchMedia('(max-width: 640px)').matches ? 1.6 : 2.1;
+    gsap.set(img, {
+      transformOrigin: `${pin.style.getPropertyValue('--x')} ${pin.style.getPropertyValue('--y')}`,
+    });
+
+    gsap.timeline({ defaults: { ease: 'power3.inOut' } })
+      .to(pins, { autoAlpha: 0, duration: 0.25 * speed }, 0)
+      .to(img, { scale: zoom, duration: 0.9 * speed }, 0)
+      .to(dim, { autoAlpha: 1, duration: 0.6 * speed }, 0)
+      .fromTo(card, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.5 * speed }, 0.35 * speed);
+
+    field('.plan-detail-close').focus();
+  }
+
+  function close() {
+    if (!openPin) return;
+    const pin = openPin;
+    openPin = null;
+
+    gsap.timeline({
+      defaults: { ease: 'power3.inOut' },
+      onComplete: () => {
+        card.hidden = true;
+        stage.classList.remove('is-zoomed');
+        pin.focus();
+      },
+    })
+      .to(card, { autoAlpha: 0, y: 24, duration: 0.3 * speed }, 0)
+      .to(img, { scale: 1, duration: 0.8 * speed }, 0)
+      .to(dim, { autoAlpha: 0, duration: 0.6 * speed }, 0)
+      .to(pins, { autoAlpha: 1, duration: 0.35 * speed }, 0.3 * speed);
+  }
+
+  pins.forEach((pin) => pin.addEventListener('click', (e) => {
+    e.preventDefault();
+    openPin ? close() : open(pin);
+  }));
+
+  field('.plan-detail-close').addEventListener('click', close);
+  dim.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  // "Read the full precinct" closes the zoom, then the anchor scrolls down
+  field('.plan-detail-link').addEventListener('click', close);
+})();
+
+/* --------------------------------------------------------------------------
    SCROLL CHOREOGRAPHY
    Content is visible by default (we only use gsap.from), so a JS failure
    or reduced-motion preference still leaves a fully readable page.
