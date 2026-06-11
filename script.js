@@ -59,25 +59,31 @@ function initHero() {
 
   Object.assign(heroState, { renderer, scene, camera, plane });
 
-  new THREE.TextureLoader().load(
-    'images/hero-district.png',
-    (texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
-      heroState.texture = texture;
-      heroState.imgAspect = texture.image.width / texture.image.height;
-      material.map = texture;
-      material.color.set(0xffffff);
-      material.needsUpdate = true;
-      fitPlane();
-      fallback.style.display = 'none'; // scene is live; drop the static image
-      if (reducedMotion) renderHeroFrame(); // single static frame, no loop
-    },
-    undefined,
-    () => {
-      // Texture failed to load (image not dropped in yet) — keep the fallback
-      mount.style.display = 'none';
+  const loader = new THREE.TextureLoader();
+  // Try .jpg first, fall back to .png — whichever was dropped into /images
+  const tryLoadTexture = (candidates) => {
+    if (candidates.length === 0) {
+      mount.style.display = 'none'; // no image yet — keep the <img> fallback
+      return;
     }
-  );
+    loader.load(
+      candidates[0],
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        heroState.texture = texture;
+        heroState.imgAspect = texture.image.width / texture.image.height;
+        material.map = texture;
+        material.color.set(0xffffff);
+        material.needsUpdate = true;
+        fitPlane();
+        fallback.style.display = 'none'; // scene is live; drop the static image
+        if (reducedMotion) renderHeroFrame(); // single static frame, no loop
+      },
+      undefined,
+      () => tryLoadTexture(candidates.slice(1))
+    );
+  };
+  tryLoadTexture(['images/hero-district.jpg', 'images/hero-district.png']);
 
   fitPlane();
 
@@ -196,16 +202,26 @@ function splitWords(el) {
 }
 
 /* --------------------------------------------------------------------------
-   PRECINCT IMAGE PLACEHOLDERS — if a render hasn't been dropped into
-   /images yet, swap the broken <img> for a styled "coming soon" tile.
+   IMAGE FALLBACKS — every site image is referenced as .jpg; if that 404s
+   we retry once with .png (so either extension works in /images). If a
+   precinct render is missing in both formats, show a "coming soon" tile.
    -------------------------------------------------------------------------- */
 
-document.querySelectorAll('.precinct-media img').forEach((img) => {
+document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
   img.addEventListener('error', () => {
+    if (!img.dataset.retriedExt) {
+      img.dataset.retriedExt = 'true';
+      img.src = img.src.endsWith('.png')
+        ? img.src.replace(/\.png$/, '.jpg')
+        : img.src.replace(/\.jpg$/, '.png');
+      return;
+    }
     const wrap = img.closest('.precinct-media');
-    wrap.classList.add('is-placeholder');
-    wrap.dataset.title = img.dataset.placeholderTitle || 'Precinct';
-    img.remove();
+    if (wrap) {
+      wrap.classList.add('is-placeholder');
+      wrap.dataset.title = img.dataset.placeholderTitle || 'Precinct';
+      img.remove();
+    }
   });
 });
 
