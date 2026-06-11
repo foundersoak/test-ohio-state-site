@@ -126,9 +126,13 @@
         <img src="images/hero-district.jpg" alt="Aerial master plan of the Horseshoe District showing the stadium, amphitheater, retail spine, towers, and riverfront" loading="lazy" />
         <div class="masterplan-shade" aria-hidden="true"></div>
 
-        <!-- Callout pins: animate in sequence on scroll, and click through to
-             each precinct panel below. Tune --x/--y per pin. -->
-        <a class="pin" href="#precinct-amphitheater" style="--x: 22%; --y: 72%;">
+        <!-- Callout pins: animate in sequence on scroll; clicking zooms the
+             aerial in on that precinct. Tune --x/--y for pin placement.
+             Optional per-pin framing for the zoom: data-fx / data-fy set the
+             focus point (percent coordinates of the precinct's visual
+             center; defaults to the pin position) and data-zoom sets the
+             zoom level (default 1.8 desktop, 1.5 mobile). -->
+        <a class="pin" href="#precinct-amphitheater" style="--x: 22%; --y: 72%;" data-fx="19" data-fy="84" data-zoom="1.5">
           <span class="pin-dot"></span><span class="pin-label">The Amphitheater</span>
         </a>
         <a class="pin" href="#precinct-scarlet-spine" style="--x: 47%; --y: 62%;">

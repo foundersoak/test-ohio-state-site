@@ -278,15 +278,25 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
     stage.classList.add('is-zoomed');
     card.hidden = false;
 
-    // Zoom toward the clicked pin's position on the image
-    const zoom = window.matchMedia('(max-width: 640px)').matches ? 1.6 : 2.1;
-    gsap.set(img, {
-      transformOrigin: `${pin.style.getPropertyValue('--x')} ${pin.style.getPropertyValue('--y')}`,
-    });
+    /* Frame the precinct rather than the pin: scale plus translate so the
+       focus point lands in the area the detail card leaves clear. Focus
+       defaults to the pin position; override per pin with data-fx / data-fy
+       (percent coordinates of the precinct's visual center) and data-zoom. */
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    const zoom = Number(pin.dataset.zoom) || (isMobile ? 1.5 : 1.8);
+    const rect = stage.getBoundingClientRect();
+    const fx = (parseFloat(pin.dataset.fx) || parseFloat(pin.style.getPropertyValue('--x'))) / 100;
+    const fy = (parseFloat(pin.dataset.fy) || parseFloat(pin.style.getPropertyValue('--y'))) / 100;
+    const targetX = isMobile ? 0.5 : 0.36;  // card occupies the right side on desktop
+    const targetY = isMobile ? 0.4 : 0.5;   // bottom sheet covers the lower part on mobile
+    // Clamp the translate so the scaled image never reveals its edges
+    const x = gsap.utils.clamp(rect.width * (1 - zoom), 0, (targetX - fx * zoom) * rect.width);
+    const y = gsap.utils.clamp(rect.height * (1 - zoom), 0, (targetY - fy * zoom) * rect.height);
 
+    gsap.set(img, { transformOrigin: '0 0' });
     gsap.timeline({ defaults: { ease: 'power3.inOut' } })
       .to(pins, { autoAlpha: 0, duration: 0.25 * speed }, 0)
-      .to(img, { scale: zoom, duration: 0.9 * speed }, 0)
+      .to(img, { scale: zoom, x, y, duration: 0.9 * speed }, 0)
       .to(dim, { autoAlpha: 1, duration: 0.6 * speed }, 0)
       .fromTo(card, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.5 * speed }, 0.35 * speed);
 
@@ -307,7 +317,7 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
       },
     })
       .to(card, { autoAlpha: 0, y: 24, duration: 0.3 * speed }, 0)
-      .to(img, { scale: 1, duration: 0.8 * speed }, 0)
+      .to(img, { scale: 1, x: 0, y: 0, duration: 0.8 * speed }, 0)
       .to(dim, { autoAlpha: 0, duration: 0.6 * speed }, 0)
       .to(pins, { autoAlpha: 1, duration: 0.35 * speed }, 0.3 * speed);
   }
