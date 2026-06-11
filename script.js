@@ -259,10 +259,12 @@ function initAnimations() {
     .to('#hero-overlay', { autoAlpha: 0, y: -40, ease: 'none' }, 0)
     .to('#scroll-cue', { autoAlpha: 0, ease: 'none' }, 0);
 
-  // Fade the hero headline in on load
-  gsap.from('#hero-overlay > *', {
+  // Fade the hero headline in on load (watermark fades separately —
+  // animating its y would fight the CSS transform that centers it)
+  gsap.from('#hero-overlay > :not(.hero-watermark)', {
     autoAlpha: 0, y: 30, duration: 1.2, ease: EASE, stagger: 0.15, delay: 0.4,
   });
+  gsap.from('.hero-watermark', { opacity: 0, duration: 2, delay: 0.2 });
   gsap.from('#scroll-cue', { autoAlpha: 0, duration: 1, delay: 1.6 });
 
   /* --- Generic one-shot reveals ([data-reveal]) ------------------------- */
