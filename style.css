@@ -1,0 +1,658 @@
+/* ==========================================================================
+   THE HORSESHOE DISTRICT — pitch site styles
+   Brand: scarlet #BB0000 · gray #666666 · near-black #1A1A1A · off-white #F5F5F0
+   ========================================================================== */
+
+:root {
+  --scarlet: #BB0000;
+  --gray: #666666;
+  --ink: #1A1A1A;
+  --paper: #F5F5F0;
+  --white: #FFFFFF;
+
+  --font-display: 'Montserrat', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Fluid type scale */
+  --text-hero: clamp(2.8rem, 8vw, 7rem);
+  --text-statement: clamp(1.6rem, 3.6vw, 3rem);
+  --text-title: clamp(2rem, 4.5vw, 3.6rem);
+  --text-body: clamp(1rem, 1.15vw, 1.15rem);
+
+  --space-section: clamp(6rem, 14vh, 11rem);
+  --container: min(1200px, 90vw);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+.container { width: var(--container); margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   Shared typography
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--scarlet);
+  margin-bottom: 1.75rem;
+}
+
+.eyebrow-light { color: #E06666; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.section-title-light { color: var(--paper); }
+
+/* Words produced by the JS splitter (word-by-word reveal) */
+.split-word {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* --------------------------------------------------------------------------
+   Nav — hidden until the hero is scrolled past (JS toggles .is-visible)
+   -------------------------------------------------------------------------- */
+
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
+  background: rgba(26, 26, 26, 0.88);
+  backdrop-filter: blur(12px);
+  transform: translateY(-100%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-nav.is-visible { transform: translateY(0); }
+
+.nav-mark {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--paper);
+}
+
+.nav-cta {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  background: var(--scarlet);
+  transition: background 0.25s ease;
+}
+
+.nav-cta:hover { background: #960000; }
+
+/* --------------------------------------------------------------------------
+   1. Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+.hero-canvas,
+.hero-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Static fallback when WebGL is unavailable; JS hides it when the scene boots */
+.hero-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 1.5rem;
+  color: var(--white);
+  background: linear-gradient(180deg, rgba(26,26,26,0.45) 0%, rgba(26,26,26,0.15) 45%, rgba(26,26,26,0.55) 100%);
+  pointer-events: none;
+}
+
+.hero-kicker {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, 0.85);
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.hero-sub {
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  font-weight: 400;
+  color: rgba(245, 245, 240, 0.9);
+  margin-top: 1.75rem;
+}
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 2.25rem;
+  z-index: 3;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scroll-cue-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, 0.7);
+}
+
+.scroll-cue-line {
+  width: 1px;
+  height: 48px;
+  background: rgba(245, 245, 240, 0.55);
+  transform-origin: top;
+  animation: cue-drop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes cue-drop {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  45%  { transform: scaleY(1); transform-origin: top; }
+  55%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-line { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   2. Vision
+   -------------------------------------------------------------------------- */
+
+.vision {
+  padding: var(--space-section) 0;
+  background: var(--paper);
+}
+
+.vision-statement {
+  font-family: var(--font-display);
+  font-size: var(--text-statement);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  max-width: 20em;
+}
+
+.vision-support {
+  margin-top: 2.5rem;
+  max-width: 36em;
+  color: var(--gray);
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+}
+
+/* --------------------------------------------------------------------------
+   3. Stats
+   -------------------------------------------------------------------------- */
+
+.stats {
+  padding: var(--space-section) 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 3.5rem 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  color: #A8A8A2;
+  max-width: 18em;
+}
+
+.stat-label em { color: #7d7d77; font-style: italic; font-size: 0.85em; }
+
+.stat {
+  border-top: 3px solid var(--scarlet);
+  padding-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Master plan
+   -------------------------------------------------------------------------- */
+
+.masterplan { padding-top: var(--space-section); background: var(--paper); }
+
+.masterplan-header { margin-bottom: 3.5rem; }
+
+.masterplan-stage {
+  position: relative;
+  width: 100%;
+}
+
+.masterplan-stage > img {
+  width: 100%;
+  height: clamp(420px, 85vh, 880px);
+  object-fit: cover;
+}
+
+.masterplan-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,26,26,0.25), rgba(26,26,26,0.05) 35%, rgba(26,26,26,0.35));
+  pointer-events: none;
+}
+
+/* Callout pins — positioned by --x / --y custom props set inline in the HTML */
+.pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transform: translate(-8px, -8px);
+}
+
+.pin-dot {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--scarlet);
+  box-shadow: 0 0 0 3px rgba(245, 245, 240, 0.85);
+}
+
+.pin-dot::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(187, 0, 0, 0.6);
+  animation: pin-pulse 2.4s ease-out infinite;
+}
+
+@keyframes pin-pulse {
+  0%   { transform: scale(0.6); opacity: 1; }
+  70%  { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-dot::after { animation: none; opacity: 0; }
+}
+
+.pin-label {
+  font-family: var(--font-display);
+  font-size: clamp(0.62rem, 1vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(245, 245, 240, 0.92);
+  padding: 0.45rem 0.8rem;
+  white-space: nowrap;
+}
+
+/* On small screens labels wrap the layout — shrink and allow stacking */
+@media (max-width: 640px) {
+  .pin-label { font-size: 0.55rem; padding: 0.3rem 0.5rem; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Precincts
+   -------------------------------------------------------------------------- */
+
+.precincts {
+  padding: var(--space-section) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-section);
+  background: var(--paper);
+}
+
+.precinct {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.precinct-flip .precinct-media { order: 2; }
+.precinct-flip .precinct-copy { order: 1; }
+
+.precinct-media {
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.precinct-media img {
+  width: 100%;
+  height: clamp(320px, 55vh, 560px);
+  object-fit: cover;
+}
+
+/* Placeholder treatment applied by JS when a render hasn't been dropped in yet */
+.precinct-media.is-placeholder {
+  display: grid;
+  place-items: center;
+  height: clamp(320px, 55vh, 560px);
+  background: linear-gradient(135deg, #2a2a2a, var(--ink) 60%);
+  border: 1px solid #333;
+}
+
+.precinct-media.is-placeholder::after {
+  content: attr(data-title) ' — render coming soon';
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #7d7d77;
+  text-align: center;
+  padding: 1rem;
+}
+
+.precinct-copy h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+
+.precinct-copy p { color: var(--gray); max-width: 34em; }
+
+@media (max-width: 860px) {
+  .precinct { grid-template-columns: 1fr; }
+  .precinct-flip .precinct-media,
+  .precinct-flip .precinct-copy { order: initial; }
+  .precinct-media img,
+  .precinct-media.is-placeholder { height: clamp(240px, 45vh, 420px); }
+}
+
+/* --------------------------------------------------------------------------
+   6. Upside
+   -------------------------------------------------------------------------- */
+
+.upside {
+  padding: var(--space-section) 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.upside-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  margin-top: 4rem;
+}
+
+.upside-col h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.4rem;
+  border-bottom: 3px solid var(--scarlet);
+}
+
+.upside-col ul { list-style: none; }
+
+.upside-col li {
+  padding: 0.7rem 0;
+  color: #B5B5AF;
+  border-bottom: 1px solid rgba(245, 245, 240, 0.08);
+  font-size: 0.98rem;
+}
+
+@media (max-width: 860px) {
+  .upside-grid { grid-template-columns: 1fr; gap: 3rem; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Phasing — horizontal pinned scroll (desktop), vertical stack (mobile)
+   -------------------------------------------------------------------------- */
+
+.phasing { background: var(--paper); }
+
+.phasing-pin {
+  /* JS pins this wrapper full-height on desktop */
+  padding: var(--space-section) 0;
+  overflow: hidden;
+}
+
+.phasing-header { margin-bottom: 4rem; }
+
+.phase-track {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-left: calc((100vw - var(--container)) / 2);
+  padding-right: 8vw;
+  width: max-content;
+}
+
+.phase-card {
+  width: min(480px, 78vw);
+  flex: none;
+  background: var(--white);
+  border-top: 4px solid var(--scarlet);
+  padding: clamp(2rem, 3vw, 3rem);
+  box-shadow: 0 24px 60px rgba(26, 26, 26, 0.08);
+}
+
+.phase-num {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--scarlet);
+}
+
+.phase-card h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  margin: 0.9rem 0 0.35rem;
+}
+
+.phase-dates {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.phase-card ul { list-style: none; }
+
+.phase-card li {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+  color: #3d3d3a;
+}
+
+/* Mobile / reduced-motion fallback: a simple vertical stack */
+@media (max-width: 860px) {
+  .phase-track {
+    flex-direction: column;
+    width: auto;
+    padding-inline: 5vw;
+  }
+  .phase-card { width: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   8. Closing CTA
+   -------------------------------------------------------------------------- */
+
+.closing {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  overflow: hidden;
+  text-align: center;
+}
+
+.closing-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.28; /* darkened return to the hero image */
+  filter: saturate(0.85);
+}
+
+.closing-inner {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-section) 0;
+}
+
+.closing-line {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  max-width: 14em;
+  margin-inline: auto;
+}
+
+.contact-block { margin-top: 4rem; }
+
+.contact-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+}
+
+.contact-email {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: #B5B5AF;
+  text-decoration: none;
+}
+
+.contact-email:hover { color: var(--white); }
+
+.contact-cta {
+  display: inline-block;
+  margin-top: 2.25rem;
+  padding: 1.05rem 2.4rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--scarlet);
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.contact-cta:hover { background: #960000; transform: translateY(-2px); }
+
+.closing-footnote {
+  margin-top: 5rem;
+  font-size: 0.78rem;
+  color: rgba(245, 245, 240, 0.45);
+  max-width: 42em;
+  margin-inline: auto;
+}
