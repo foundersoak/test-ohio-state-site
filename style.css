@@ -331,6 +331,15 @@ img.vision-watermark-img {
   padding-top: 1.5rem;
 }
 
+/* Benchmark footnote under the impact section's stat grid */
+.impact-note {
+  margin-top: 3.5rem;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: #8a8a84;
+  max-width: 52em;
+}
+
 /* --------------------------------------------------------------------------
    4. Master plan
    -------------------------------------------------------------------------- */
@@ -495,6 +504,19 @@ img.vision-watermark-img {
 }
 
 .precinct-copy p { color: var(--gray); max-width: 34em; }
+
+/* One-line revenue framing under each precinct's copy */
+.precinct-copy .precinct-value {
+  margin-top: 1.6rem;
+  padding-top: 1.1rem;
+  border-top: 2px solid var(--scarlet);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
 
 @media (max-width: 860px) {
   .precinct { grid-template-columns: 1fr; }
