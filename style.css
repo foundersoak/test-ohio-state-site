@@ -1,5 +1,5 @@
 /* ==========================================================================
-   THE HORSESHOE DISTRICT — pitch site styles
+   THE HORSESHOE DISTRICT - pitch site styles
    Brand: scarlet #BB0000 · gray #666666 · near-black #1A1A1A · off-white #F5F5F0
    ========================================================================== */
 
@@ -80,7 +80,7 @@ img { display: block; max-width: 100%; }
 }
 
 /* --------------------------------------------------------------------------
-   Nav — hidden until the hero is scrolled past (JS toggles .is-visible)
+   Nav - hidden until the hero is scrolled past (JS toggles .is-visible)
    -------------------------------------------------------------------------- */
 
 .site-nav {
@@ -167,30 +167,6 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
 }
 
-/* Grayed-out logo watermark filling the opening view, behind the headline.
-   Shared by the stylized inline SVG and the uploaded images/block-o.* file. */
-.hero-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(420px, 92vmin, 1100px);
-  max-width: 96vw;
-  height: auto;
-  max-height: 92vh;
-  fill: var(--gray);
-  opacity: 0.09;
-  z-index: -1; /* behind the overlay text, above the canvas shade */
-}
-
-/* Uploaded logo: desaturate so any mark (white or scarlet) reads as a clean
-   gray ghost over the dark hero. EDIT: raise opacity for a stronger mark. */
-img.hero-watermark-img {
-  object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.12;
-}
-
 .hero-kicker {
   font-family: var(--font-display);
   font-size: 0.8rem;
@@ -262,8 +238,36 @@ img.hero-watermark-img {
    -------------------------------------------------------------------------- */
 
 .vision {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-section) 0;
   background: var(--paper);
+}
+
+/* Keep the text above the watermark */
+.vision .container { position: relative; }
+
+/* Grayed-out logo watermark behind the vision statement. Shared by the
+   stylized inline SVG and the uploaded images/block-o.* file. */
+.vision-watermark {
+  position: absolute;
+  top: 50%;
+  right: -6%;
+  transform: translateY(-50%);
+  width: clamp(340px, 44vw, 720px);
+  height: auto;
+  fill: var(--gray);
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+/* Uploaded logo: desaturated to a gray ghost on this light section.
+   EDIT: raise opacity for a stronger mark. If you ever swap in a WHITE
+   logo, change the filter to invert(1) grayscale(1) so it reads dark. */
+img.vision-watermark-img {
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.07;
 }
 
 .vision-statement {
@@ -302,12 +306,14 @@ img.hero-watermark-img {
 .stat-number {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  /* Sized so "100,000+" fits its column at every breakpoint */
+  font-size: clamp(2rem, 2.8vw, 3.2rem);
   font-weight: 800;
   line-height: 1;
   color: var(--white);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
 .stat-label {
@@ -351,7 +357,8 @@ img.hero-watermark-img {
   pointer-events: none;
 }
 
-/* Callout pins — positioned by --x / --y custom props set inline in the HTML */
+/* Callout pins: positioned by --x / --y custom props set inline in the HTML.
+   Each pin is a link down to its precinct panel. */
 .pin {
   position: absolute;
   left: var(--x);
@@ -360,6 +367,19 @@ img.hero-watermark-img {
   align-items: center;
   gap: 0.7rem;
   transform: translate(-8px, -8px);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pin:hover .pin-label,
+.pin:focus-visible .pin-label {
+  background: var(--scarlet);
+  color: var(--white);
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--scarlet);
+  outline-offset: 4px;
 }
 
 .pin-dot {
@@ -401,9 +421,10 @@ img.hero-watermark-img {
   background: rgba(245, 245, 240, 0.92);
   padding: 0.45rem 0.8rem;
   white-space: nowrap;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* On small screens labels wrap the layout — shrink and allow stacking */
+/* On small screens labels wrap the layout - shrink and allow stacking */
 @media (max-width: 640px) {
   .pin-label { font-size: 0.55rem; padding: 0.3rem 0.5rem; }
 }
@@ -453,7 +474,7 @@ img.hero-watermark-img {
 }
 
 .precinct-media.is-placeholder::after {
-  content: attr(data-title) ' — render coming soon';
+  content: attr(data-title) ' - render coming soon';
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 600;
@@ -526,7 +547,7 @@ img.hero-watermark-img {
 }
 
 /* --------------------------------------------------------------------------
-   7. Phasing — horizontal pinned scroll (desktop), vertical stack (mobile)
+   7. Phasing - horizontal pinned scroll (desktop), vertical stack (mobile)
    -------------------------------------------------------------------------- */
 
 .phasing { background: var(--paper); }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Horseshoe District — An Ohio State Entertainment District</title>
+  <title>The Horseshoe District | An Ohio State Entertainment District</title>
   <meta name="description" content="A 35-acre mixed-use entertainment district adjacent to Ohio Stadium. A new front door for Ohio State." />
 
   <!-- Fonts: Montserrat (headlines) + Inter (body) -->
@@ -25,7 +25,7 @@
 <body>
 
   <!-- ============================================================
-       MINIMAL NAV — fades in once the user scrolls past the hero
+       MINIMAL NAV - fades in once the user scrolls past the hero
        ============================================================ -->
   <nav class="site-nav" id="site-nav" aria-label="Primary">
     <span class="nav-mark">THE HORSESHOE DISTRICT</span>
@@ -33,7 +33,7 @@
   </nav>
 
   <!-- ============================================================
-       1. HERO — Three.js cinematic plane (hero-district.png)
+       1. HERO - Three.js cinematic plane (hero-district.png)
        ============================================================ -->
   <header class="hero" id="hero">
     <!-- WebGL canvas mounts here; falls back to a plain <img> if WebGL is unavailable -->
@@ -41,15 +41,6 @@
     <img class="hero-fallback" id="hero-fallback" src="images/hero-district.jpg" alt="" aria-hidden="true" />
 
     <div class="hero-overlay" id="hero-overlay">
-      <!-- Grayed-out background mark filling the opening view.
-           Drop your logo into /images as block-o.svg (or .png / .jpg) and it
-           replaces the stylized block-"O" below automatically, rendered as a
-           large desaturated watermark. -->
-      <svg class="hero-watermark" viewBox="0 0 100 130" aria-hidden="true" focusable="false">
-        <path fill-rule="evenodd" d="M20 0 L80 0 L100 20 L100 110 L80 130 L20 130 L0 110 L0 20 Z
-                 M30 22 L70 22 L78 30 L78 100 L70 108 L30 108 L22 100 L22 30 Z" />
-      </svg>
-      <img class="hero-watermark hero-watermark-img" alt="" aria-hidden="true" hidden />
       <p class="hero-kicker">An investment concept for The Ohio State University</p>
       <h1 class="hero-title">The Horseshoe<br />District</h1>
       <p class="hero-sub">A new front door for Ohio State.</p>
@@ -64,33 +55,41 @@
   <main>
 
     <!-- ============================================================
-         2. THE VISION — thesis animates in word-by-word on scroll
+         2. THE VISION - thesis animates in word-by-word on scroll
          ============================================================ -->
     <section class="vision" id="vision">
+      <!-- Grayed-out logo watermark behind the vision statement. The uploaded
+           images/block-o file replaces the stylized block-"O" automatically;
+           a white logo is flipped dark via CSS to suit this light section. -->
+      <svg class="vision-watermark" viewBox="0 0 100 130" aria-hidden="true" focusable="false">
+        <path fill-rule="evenodd" d="M20 0 L80 0 L100 20 L100 110 L80 130 L20 130 L0 110 L0 20 Z
+                 M30 22 L70 22 L78 30 L78 100 L70 108 L30 108 L22 100 L22 30 Z" />
+      </svg>
+      <img class="vision-watermark vision-watermark-img" alt="" aria-hidden="true" hidden />
       <div class="container">
         <p class="eyebrow">The Vision</p>
         <!-- Words inside [data-split] are split and revealed one-by-one by GSAP -->
         <h2 class="vision-statement" data-split>
           Thirty-five acres of underused land beside Ohio Stadium, transformed
           into a year-round entertainment, residential, hospitality, and retail
-          destination — alive 365 days a year, not seven.
+          destination that is alive 365 days a year, not seven.
         </h2>
         <p class="vision-support" data-reveal>
           Game day already brings the crowd. The Horseshoe District gives them a
-          reason to stay — and a reason to come back on the other 358 days.
+          reason to stay, and a reason to come back on the other 358 days.
         </p>
       </div>
     </section>
 
     <!-- ============================================================
-         3. THE OPPORTUNITY / WHY NOW — animated stat counters
+         3. THE OPPORTUNITY / WHY NOW - animated stat counters
          EDIT: swap the placeholder numbers below. Each stat reads
          data-target (the number to count to), data-prefix, data-suffix.
          data-decimals sets decimal places (default 0).
          ============================================================ -->
     <section class="stats" id="opportunity">
       <div class="container">
-        <p class="eyebrow eyebrow-light">The Opportunity — Why Now</p>
+        <p class="eyebrow eyebrow-light">The Opportunity: Why Now</p>
         <div class="stat-grid">
           <div class="stat" data-reveal>
             <span class="stat-number" data-target="100000" data-suffix="+">0</span>
@@ -98,7 +97,7 @@
           </div>
           <div class="stat" data-reveal>
             <span class="stat-number" data-target="365" data-suffix=""><!-- vs. 7 home games -->0</span>
-            <span class="stat-label">Days of activation — vs. 7 home games today</span>
+            <span class="stat-label">Days of activation vs. 7 home games today</span>
           </div>
           <div class="stat" data-reveal>
             <!-- PLACEHOLDER: replace 250 with projected annual economic impact ($M) -->
@@ -115,7 +114,7 @@
     </section>
 
     <!-- ============================================================
-         4. THE MASTER PLAN — full-bleed aerial with sequenced callout pins
+         4. THE MASTER PLAN - full-bleed aerial with sequenced callout pins
          EDIT: pin positions are percentages of the image (left / top).
          Adjust the inline --x / --y values to sit each pin precisely.
          ============================================================ -->
@@ -129,34 +128,35 @@
         <img src="images/hero-district.jpg" alt="Aerial master plan of the Horseshoe District showing the stadium, amphitheater, retail spine, towers, and riverfront" loading="lazy" />
         <div class="masterplan-shade" aria-hidden="true"></div>
 
-        <!-- Callout pins: animate in sequence on scroll. Tune --x/--y per pin. -->
-        <div class="pin" style="--x: 22%; --y: 72%;">
+        <!-- Callout pins: animate in sequence on scroll, and click through to
+             each precinct panel below. Tune --x/--y per pin. -->
+        <a class="pin" href="#precinct-amphitheater" style="--x: 22%; --y: 72%;">
           <span class="pin-dot"></span><span class="pin-label">The Amphitheater</span>
-        </div>
-        <div class="pin" style="--x: 47%; --y: 62%;">
-          <span class="pin-dot"></span><span class="pin-label">Scarlet Spine — Retail Promenade</span>
-        </div>
-        <div class="pin" style="--x: 10%; --y: 38%;">
+        </a>
+        <a class="pin" href="#precinct-scarlet-spine" style="--x: 47%; --y: 62%;">
+          <span class="pin-dot"></span><span class="pin-label">Scarlet Spine Retail Promenade</span>
+        </a>
+        <a class="pin" href="#precinct-hotel" style="--x: 10%; --y: 38%;">
           <span class="pin-dot"></span><span class="pin-label">Buckeye Tower Hotel</span>
-        </div>
-        <div class="pin" style="--x: 24%; --y: 30%;">
+        </a>
+        <a class="pin" href="#precinct-residential" style="--x: 24%; --y: 30%;">
           <span class="pin-dot"></span><span class="pin-label">Residential Towers</span>
-        </div>
-        <div class="pin" style="--x: 82%; --y: 55%;">
+        </a>
+        <a class="pin" href="#precinct-riverfront" style="--x: 82%; --y: 55%;">
           <span class="pin-dot"></span><span class="pin-label">Riverfront Promenade</span>
-        </div>
+        </a>
       </div>
     </section>
 
     <!-- ============================================================
-         5. PRECINCT SHOWCASE — alternating image/text panels
+         5. PRECINCT SHOWCASE - alternating image/text panels
          Images reveal with a GSAP clip-path wipe + gentle parallax.
          Drop scarlet-spine.png, hotel-tower.png, riverfront.png into
          /images and the placeholders will be replaced automatically.
          ============================================================ -->
     <section class="precincts" id="precincts">
 
-      <article class="precinct">
+      <article class="precinct" id="precinct-amphitheater">
         <div class="precinct-media" data-clip>
           <img src="images/amphitheater.jpg" alt="The 4,300-seat open-air amphitheater with white tensile roof, Ohio Stadium rising behind the stage" loading="lazy" />
         </div>
@@ -166,13 +166,13 @@
           <p data-reveal>
             A 4,300-seat open-air venue under a white tensile roof, with the
             Horseshoe itself as the backdrop. Concerts, commencements, watch
-            parties, and community events — programmed year-round, anchoring the
+            parties, and community events - programmed year-round, anchoring the
             district's nightlife and giving Columbus a stage it doesn't have.
           </p>
         </div>
       </article>
 
-      <article class="precinct precinct-flip">
+      <article class="precinct precinct-flip" id="precinct-scarlet-spine">
         <div class="precinct-media" data-clip>
           <!-- EDIT: drop images/scarlet-spine.jpg into /images -->
           <img src="images/scarlet-spine.jpg" alt="The Scarlet Spine retail promenade" loading="lazy" data-placeholder-title="Scarlet Spine" />
@@ -181,7 +181,7 @@
           <p class="eyebrow">Precinct 02</p>
           <h3 data-reveal>The Scarlet Spine</h3>
           <p data-reveal>
-            <!-- PLACEHOLDER COPY — refine with program details -->
+            <!-- PLACEHOLDER COPY - refine with program details -->
             A pedestrian retail promenade running from campus to the stadium
             gates: restaurants, flagship retail, and Buckeye-first storefronts
             that turn the walk to the game into the destination itself.
@@ -189,7 +189,7 @@
         </div>
       </article>
 
-      <article class="precinct">
+      <article class="precinct" id="precinct-hotel">
         <div class="precinct-media" data-clip>
           <!-- EDIT: drop images/hotel-tower.jpg into /images -->
           <img src="images/hotel-tower.jpg" alt="The Buckeye Tower hotel" loading="lazy" data-placeholder-title="Buckeye Tower" />
@@ -198,15 +198,15 @@
           <p class="eyebrow">Precinct 03</p>
           <h3 data-reveal>Buckeye Tower</h3>
           <p data-reveal>
-            <!-- PLACEHOLDER COPY — refine with room count / brand partner -->
-            A full-service hotel and conference venue overlooking the stadium —
+            <!-- PLACEHOLDER COPY - refine with room count / brand partner -->
+            A full-service hotel and conference venue overlooking the stadium,
             serving recruits' families, visiting teams, alumni weekends, and the
             university's year-round events calendar.
           </p>
         </div>
       </article>
 
-      <article class="precinct precinct-flip">
+      <article class="precinct precinct-flip" id="precinct-riverfront">
         <div class="precinct-media" data-clip>
           <!-- EDIT: drop images/riverfront.jpg into /images -->
           <img src="images/riverfront.jpg" alt="The Olentangy riverfront promenade" loading="lazy" data-placeholder-title="The Riverfront" />
@@ -215,7 +215,7 @@
           <p class="eyebrow">Precinct 04</p>
           <h3 data-reveal>The Riverfront</h3>
           <p data-reveal>
-            <!-- PLACEHOLDER COPY — refine with trail / park program -->
+            <!-- PLACEHOLDER COPY - refine with trail / park program -->
             The Olentangy edge, opened up: a landscaped promenade, trail
             connections, and terraced public space that ties the district to the
             water and to the campus beyond it.
@@ -223,10 +223,27 @@
         </div>
       </article>
 
+      <article class="precinct" id="precinct-residential">
+        <div class="precinct-media" data-clip>
+          <!-- EDIT: drop images/residential.jpg into /images -->
+          <img src="images/residential.jpg" alt="The residential towers" loading="lazy" data-placeholder-title="Residential Towers" />
+        </div>
+        <div class="precinct-copy">
+          <p class="eyebrow">Precinct 05</p>
+          <h3 data-reveal>Residential Towers</h3>
+          <p data-reveal>
+            <!-- PLACEHOLDER COPY: refine with unit counts / mix -->
+            Market-rate and graduate residences with stadium views: a built-in
+            population that keeps the district’s restaurants, shops, and
+            riverfront busy every day of the year.
+          </p>
+        </div>
+      </article>
+
     </section>
 
     <!-- ============================================================
-         6. THE UPSIDE — three-column investment case, staggered reveal
+         6. THE UPSIDE - three-column investment case, staggered reveal
          ============================================================ -->
     <section class="upside" id="upside">
       <div class="container">
@@ -237,7 +254,7 @@
           <div class="upside-col" data-reveal>
             <h4>Revenue Drivers</h4>
             <ul>
-              <li>Hospitality — hotel &amp; conference revenue</li>
+              <li>Hospitality: hotel &amp; conference revenue</li>
               <li>Retail and restaurant leases</li>
               <li>Ticketed amphitheater events</li>
               <li>Naming rights &amp; sponsorship</li>
@@ -247,7 +264,7 @@
           <div class="upside-col" data-reveal>
             <h4>Strategic Value</h4>
             <ul>
-              <li>A recruiting weapon — for athletes and students alike</li>
+              <li>A recruiting weapon for athletes and students alike</li>
               <li>National brand statement at the stadium's doorstep</li>
               <li>Community anchor for Columbus</li>
               <li>Year-round campus vitality</li>
@@ -256,7 +273,7 @@
           <div class="upside-col" data-reveal>
             <h4>De-Risking</h4>
             <ul>
-              <li>Phased development — build to demand</li>
+              <li>Phased development, built to demand</li>
               <li>Anchor demand from existing game-day traffic</li>
               <li>University-adjacent land already controlled</li>
               <li>Proven model: Titletown, The Battery, Patriot Place</li>
@@ -267,7 +284,7 @@
     </section>
 
     <!-- ============================================================
-         7. PHASING TIMELINE — horizontal pinned scroll (vertical on mobile)
+         7. PHASING TIMELINE - horizontal pinned scroll (vertical on mobile)
          EDIT: phase contents and dates below.
          ============================================================ -->
     <section class="phasing" id="phasing">
@@ -280,17 +297,17 @@
           <article class="phase-card">
             <span class="phase-num">Phase 1</span>
             <h3>The Anchor</h3>
-            <p class="phase-dates"><!-- EDIT dates -->Years 1–3</p>
+            <p class="phase-dates"><!-- EDIT dates -->Years 1-3</p>
             <ul>
               <li>The Amphitheater</li>
-              <li>Scarlet Spine — first retail block</li>
+              <li>Scarlet Spine: first retail block</li>
               <li>Surface infrastructure &amp; utilities</li>
             </ul>
           </article>
           <article class="phase-card">
             <span class="phase-num">Phase 2</span>
             <h3>The Stay</h3>
-            <p class="phase-dates"><!-- EDIT dates -->Years 3–6</p>
+            <p class="phase-dates"><!-- EDIT dates -->Years 3-6</p>
             <ul>
               <li>Buckeye Tower hotel &amp; conference center</li>
               <li>First residential tower</li>
@@ -300,7 +317,7 @@
           <article class="phase-card">
             <span class="phase-num">Phase 3</span>
             <h3>The District</h3>
-            <p class="phase-dates"><!-- EDIT dates -->Years 6–10</p>
+            <p class="phase-dates"><!-- EDIT dates -->Years 6-10</p>
             <ul>
               <li>Riverfront promenade &amp; park</li>
               <li>Remaining residential towers</li>
@@ -312,7 +329,7 @@
     </section>
 
     <!-- ============================================================
-         8. CLOSING CTA — darkened hero, closing line, contact block
+         8. CLOSING CTA - darkened hero, closing line, contact block
          ============================================================ -->
     <section class="closing" id="contact">
       <img class="closing-bg" src="images/hero-district.jpg" alt="" aria-hidden="true" loading="lazy" />

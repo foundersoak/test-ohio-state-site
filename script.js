@@ -1,5 +1,5 @@
 /* ==========================================================================
-   THE HORSESHOE DISTRICT — scroll choreography
+   THE HORSESHOE DISTRICT - scroll choreography
    - Three.js: single hero scene (textured plane, mouse parallax, push-in)
    - GSAP + ScrollTrigger: pinned hero, word reveals, counters, pins,
      clip-path image wipes, horizontal phasing timeline
@@ -39,7 +39,7 @@ function initHero() {
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
   } catch (e) {
-    return; // no WebGL — the <img> fallback stays visible
+    return; // no WebGL - the <img> fallback stays visible
   }
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -60,10 +60,10 @@ function initHero() {
   Object.assign(heroState, { renderer, scene, camera, plane });
 
   const loader = new THREE.TextureLoader();
-  // Try .jpg first, fall back to .png — whichever was dropped into /images
+  // Try .jpg first, fall back to .png - whichever was dropped into /images
   const tryLoadTexture = (candidates) => {
     if (candidates.length === 0) {
-      mount.style.display = 'none'; // no image yet — keep the <img> fallback
+      mount.style.display = 'none'; // no image yet - keep the <img> fallback
       return;
     }
     loader.load(
@@ -183,7 +183,7 @@ function disposeHero() {
 initHero();
 
 /* --------------------------------------------------------------------------
-   WORD SPLITTER — wraps each word of [data-split] elements in a span
+   WORD SPLITTER - wraps each word of [data-split] elements in a span
    so GSAP can reveal them one-by-one.
    -------------------------------------------------------------------------- */
 
@@ -202,7 +202,7 @@ function splitWords(el) {
 }
 
 /* --------------------------------------------------------------------------
-   IMAGE FALLBACKS — every site image is referenced as .jpg; if that 404s
+   IMAGE FALLBACKS - every site image is referenced as .jpg; if that 404s
    we retry once with .png (so either extension works in /images). If a
    precinct render is missing in both formats, show a "coming soon" tile.
    -------------------------------------------------------------------------- */
@@ -226,18 +226,18 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
 });
 
 /* --------------------------------------------------------------------------
-   HERO WATERMARK — if a logo has been dropped into /images (block-o.svg,
+   VISION WATERMARK - if a logo has been dropped into /images (block-o.svg,
    .png, or .jpg), swap it in for the stylized inline SVG.
    -------------------------------------------------------------------------- */
 
 (function loadWatermark(candidates) {
-  if (candidates.length === 0) return; // none uploaded — keep the inline SVG
+  if (candidates.length === 0) return; // none uploaded - keep the inline SVG
   const probe = new Image();
   probe.onload = () => {
-    const img = document.querySelector('.hero-watermark-img');
+    const img = document.querySelector('.vision-watermark-img');
     img.src = probe.src;
     img.hidden = false;
-    document.querySelector('svg.hero-watermark').remove();
+    document.querySelector('svg.vision-watermark').remove();
   };
   probe.onerror = () => loadWatermark(candidates.slice(1));
   probe.src = candidates[0];
@@ -249,7 +249,7 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
    or reduced-motion preference still leaves a fully readable page.
    -------------------------------------------------------------------------- */
 
-// Nav appears once the hero is left behind — works in all motion modes
+// Nav appears once the hero is left behind - works in all motion modes
 ScrollTrigger.create({
   trigger: '#vision',
   start: 'top 75%',
@@ -293,12 +293,22 @@ function initAnimations() {
     .to('#hero-overlay', { autoAlpha: 0, y: -40, ease: 'none' }, 0)
     .to('#scroll-cue', { autoAlpha: 0, ease: 'none' }, 0);
 
-  // Fade the hero headline in on load (watermark fades separately —
-  // animating its y would fight the CSS transform that centers it)
-  gsap.from('#hero-overlay > :not(.hero-watermark)', {
+  // Fade the hero headline in on load
+  gsap.from('#hero-overlay > *', {
     autoAlpha: 0, y: 30, duration: 1.2, ease: EASE, stagger: 0.15, delay: 0.4,
   });
-  gsap.from('.hero-watermark', { opacity: 0, duration: 2, delay: 0.2 });
+
+  // Vision watermark: slow vertical drift as the section scrolls through.
+  // The CSS centering transform is translateY(-50%); GSAP folds that into
+  // yPercent, so we drift around it.
+  gsap.fromTo('.vision-watermark',
+    { yPercent: -58 },
+    {
+      yPercent: -42,
+      ease: 'none',
+      scrollTrigger: { trigger: '.vision', start: 'top bottom', end: 'bottom top', scrub: true },
+    }
+  );
   gsap.from('#scroll-cue', { autoAlpha: 0, duration: 1, delay: 1.6 });
 
   /* --- Generic one-shot reveals ([data-reveal]) ------------------------- */
