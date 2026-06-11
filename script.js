@@ -226,6 +226,24 @@ document.querySelectorAll('main img, .hero-fallback').forEach((img) => {
 });
 
 /* --------------------------------------------------------------------------
+   HERO WATERMARK — if a logo has been dropped into /images (block-o.svg,
+   .png, or .jpg), swap it in for the stylized inline SVG.
+   -------------------------------------------------------------------------- */
+
+(function loadWatermark(candidates) {
+  if (candidates.length === 0) return; // none uploaded — keep the inline SVG
+  const probe = new Image();
+  probe.onload = () => {
+    const img = document.querySelector('.hero-watermark-img');
+    img.src = probe.src;
+    img.hidden = false;
+    document.querySelector('svg.hero-watermark').remove();
+  };
+  probe.onerror = () => loadWatermark(candidates.slice(1));
+  probe.src = candidates[0];
+})(['images/block-o.svg', 'images/block-o.png', 'images/block-o.jpg']);
+
+/* --------------------------------------------------------------------------
    SCROLL CHOREOGRAPHY
    Content is visible by default (we only use gsap.from), so a JS failure
    or reduced-motion preference still leaves a fully readable page.

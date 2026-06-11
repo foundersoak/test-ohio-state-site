@@ -167,17 +167,28 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
 }
 
-/* Grayed-out block-"O" watermark behind the hero headline */
+/* Grayed-out logo watermark filling the opening view, behind the headline.
+   Shared by the stylized inline SVG and the uploaded images/block-o.* file. */
 .hero-watermark {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(280px, 58vmin, 640px);
+  width: clamp(420px, 92vmin, 1100px);
+  max-width: 96vw;
   height: auto;
+  max-height: 92vh;
   fill: var(--gray);
-  opacity: 0.1;
+  opacity: 0.09;
   z-index: -1; /* behind the overlay text, above the canvas shade */
+}
+
+/* Uploaded logo: desaturate so any mark (white or scarlet) reads as a clean
+   gray ghost over the dark hero. EDIT: raise opacity for a stronger mark. */
+img.hero-watermark-img {
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.12;
 }
 
 .hero-kicker {
