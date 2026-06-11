@@ -10,20 +10,57 @@ Workflow tips for consistency:
 
 ---
 
-## hero-district.jpg (REDO: district on the other side of the stadium)
+## hero-district.jpg (v3: from a fresh Google Earth capture)
 
-> Ultra-realistic aerial drone photograph of Ohio Stadium (the Horseshoe) in
-> Columbus, Ohio at golden hour, sweeping three-quarter aerial view. Keep the
-> stadium and the historic campus buildings beside it (St. John Arena, French
-> Field House, and the surrounding campus fabric) exactly as they exist in
-> real life, completely untouched. On the OPPOSITE side of the stadium from
-> those historic arenas, replace only the surface parking lots with a new
-> mixed-use entertainment district: an open-air amphitheater with a sculptural
-> white tensile fabric roof, a brick-paved pedestrian retail promenade with
-> string lights leading to the stadium gates, a modern glass hotel tower with
-> a single vertical scarlet-red architectural fin, a cluster of mid-rise
-> residential towers, and a landscaped riverfront promenade along the
-> Olentangy River. Downtown Columbus skyline on the horizon. [STYLE BLOCK]
+> Professional real estate development marketing rendering in the style of a
+> high-end architectural aerial photograph. Elevated drone view of Ohio
+> Stadium (the Horseshoe) in Columbus, Ohio at golden hour, matching the
+> camera angle of the attached reference photo exactly.
+>
+> PRESERVE exactly as they exist: the stadium, the white-roofed historic
+> arenas beyond it, the campus buildings and smokestack in the background,
+> the Olentangy River with its tree-lined banks, and the existing road
+> bridges.
+>
+> REMOVE completely, none of these may appear in the final image: the two
+> cylindrical dormitory towers, the low event-center buildings between the
+> stadium and the river, ALL tennis courts and practice fields beside the
+> stadium, all surface parking lots, and the bare dirt land along the
+> riverbank.
+>
+> BUILD in their place, as a low-rise district where every building is FIVE
+> FLOORS OR SHORTER and most are three or four stories: (1) along the river,
+> a landscaped riverfront promenade with terraced limestone steps and a
+> 4,300-seat open-air amphitheater: a fan-shaped seating bowl with clearly
+> visible curved rows of fixed seats sloping down to the stage, all beneath
+> a sculptural white tensile fabric roof, oriented so the stadium rises
+> directly behind the stage; (2) the single exception to the height cap: one
+> slender hotel tower of warm bronze-tinted glass with solid limestone piers
+> and one vertical scarlet-red architectural fin, glowing warmly from
+> within, never mirrored or transparent; (3) a brick-paved pedestrian retail
+> promenade connecting the district to the stadium gates, lined with
+> three-story red brick buildings, glass storefronts, awnings, restaurant
+> patios with umbrellas, and festoon string lights; (4) where the tennis
+> courts used to be, a landscaped fan plaza and great lawn at the stadium
+> gates; (5) a graceful modern cable-stayed pedestrian bridge over the
+> river, and on the far bank a quiet riverside park with a great lawn, a
+> small timber-and-glass pavilion, and a boathouse landing.
+>
+> Crowds in scarlet red and gray, light traffic on the streets, warm light
+> in the windows. Photorealistic, golden hour just after sunset, warm peach
+> and amber sky, long soft shadows, gentle haze, medium-format aerial
+> photography, tack sharp, high dynamic range, 21:9 cinematic aspect ratio,
+> no text, no watermarks, no logos.
+
+Capture tips: high altitude (low angles read industrial), 30 to 40 degree
+tilt, stadium in the upper third, build zone filling the foreground, ~2:1
+frame, labels off (Google Earth, Clean map style).
+
+Lessons from earlier passes: name the tennis courts in REMOVE or the model
+preserves them as existing campus; describe the amphitheater's seating bowl
+or the roof reads as a park canopy; give the hotel positive materials (warm
+bronze glass, limestone piers) or it renders transparent; state the height
+cap twice in different words.
 
 ## scarlet-spine.jpg
 
