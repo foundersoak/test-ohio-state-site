@@ -62,45 +62,73 @@ or the roof reads as a park canopy; give the hotel positive materials (warm
 bronze glass, limestone piers) or it renders transparent; state the height
 cap twice in different words.
 
+## Precinct renders (v2: consistency with the final hero)
+
+For ALL prompts below, attach the final hero-district.jpg as the ONLY
+reference image. Each prompt renders a closer view of the district shown
+in that aerial, so architecture, materials, and light stay consistent.
+Aspect 16:9, export ~2560px JPG, exact filenames.
+
 ## scarlet-spine.jpg
 
-> Eye-level view down a lively brick-paved pedestrian retail promenade lined
-> with three-story red brick buildings, glass storefronts, restaurants with
-> full sidewalk patios, festoon string lights overhead, and scarlet-red
-> banners. The street axis frames the massive historic concrete arches and
-> rotunda of Ohio Stadium at the far end, glowing in the sunset. Crowds of
-> fans in scarlet and gray strolling toward the stadium. [STYLE BLOCK]
+> Using the attached aerial rendering of the stadium district as the
+> reference, render an eye-level view from the middle of the central
+> brick-paved pedestrian promenade, looking straight down its axis toward
+> Ohio Stadium. Show the same three and four story red brick buildings with
+> glass storefronts, awnings, restaurant patios with umbrellas, and festoon
+> string lights spanning overhead exactly as they appear in the reference.
+> The stadium fills the end of the corridor, glowing in the sunset, with the
+> great lawn and fan plaza visible at its gates. Crowds of fans in scarlet
+> and gray. Photorealistic, golden hour, warm peach and amber sky, long soft
+> shadows, shot on a full-frame camera at street level, tack sharp, no text,
+> no watermarks, no logos.
+
+## amphitheater.jpg (optional refresh to match the new hero)
+
+> Using the attached aerial rendering of the stadium district as the
+> reference, render a closer three-quarter aerial view of the riverfront
+> amphitheater: the same fan-shaped bowl of curved tiers of fixed seating
+> stepping down to the stage, the same sculptural white tensile fabric roof,
+> the terraced limestone landscape steps beside it, and the Olentangy River
+> and cable-stayed pedestrian bridge behind it. A concert in progress at
+> dusk, stage lit warmly, the bowl full, Ohio Stadium rising in the
+> background. Photorealistic, golden hour fading to dusk, warm peach and
+> amber sky, gentle haze, medium-format aerial photography, tack sharp, no
+> text, no watermarks, no logos.
 
 ## hotel-tower.jpg
 
-> Dramatic three-quarter view of a sleek 20-story glass hotel tower with one
-> bold vertical scarlet-red architectural fin running its full height, a
-> rooftop bar terrace with people overlooking Ohio Stadium directly across
-> the street, a warm-lit porte-cochere with arriving guests below, and a
-> landscaped arrival plaza with mature trees. [STYLE BLOCK]
+> Using the attached aerial rendering of the stadium district as the
+> reference, render a dramatic street-level three-quarter view of the
+> district's hotel tower: the same slender tower of warm bronze-tinted glass
+> with solid limestone piers and the single vertical scarlet-red
+> architectural fin, glowing warmly from within. A welcoming porte-cochere
+> with arriving guests, a landscaped arrival plaza with mature trees, a
+> rooftop terrace with people, and Ohio Stadium visible just beyond.
+> Photorealistic, golden hour, warm peach and amber sky, long soft shadows,
+> shot on a full-frame camera, tack sharp, no text, no watermarks, no logos.
 
 ## riverfront.jpg
 
-> Elevated view along a landscaped riverfront promenade on the Olentangy
-> River: terraced limestone steps down to the water, a modern boardwalk with
-> elegant light poles, mature trees, joggers, families, and kayakers on the
-> river. Ohio Stadium rises above the treeline in the background, catching
-> the last warm light. [STYLE BLOCK]
+> Using the attached aerial rendering of the stadium district as the
+> reference, render an eye-level view along the riverfront promenade at the
+> water's edge: the same terraced limestone steps and planted gardens
+> stepping down to the Olentangy River, the white cable-stayed pedestrian
+> bridge crossing to a quiet park with a great lawn and a small
+> timber-and-glass pavilion on the far bank, the white tensile roof of the
+> amphitheater to one side, and Ohio Stadium rising above the district
+> beyond. Joggers, families, and kayakers on the river. Photorealistic,
+> golden hour, warm peach and amber sky, long soft shadows, shot on a
+> full-frame camera, tack sharp, no text, no watermarks, no logos.
 
 ## residential.jpg
 
-> Aerial three-quarter view of a cluster of modern 12 to 18 story residential
-> towers with warm brick, bronze metal, and glass facades, generous balconies
-> facing Ohio Stadium, rooftop amenity decks with pools and pergolas, and
-> tree-lined streets with cafes at ground level. The stadium and the
-> Olentangy River visible beyond. [STYLE BLOCK]
-
----
-
-## [STYLE BLOCK] (append to every prompt)
-
-> Photorealistic architectural visualization, golden hour just after sunset,
-> warm peach and amber sky fading to soft blue, long soft shadows, gentle
-> haze, ultra detailed, shot on a full-frame camera with a sharp wide lens,
-> people wearing scarlet red and gray, 16:9 aspect ratio, no text, no
-> watermarks, no logos.
+> Using the attached aerial rendering of the stadium district as the
+> reference, render a street-level view within the residential blocks of the
+> district: the same four and five story warm red brick buildings with
+> bronze and glass details, generous balconies and rooftop terraces with
+> people, ground-floor cafes with patios, tree-lined brick streets, and a
+> pocket park. Ohio Stadium visible at the end of the street. Residents and
+> fans in scarlet and gray. Photorealistic, golden hour, warm peach and
+> amber sky, long soft shadows, shot on a full-frame camera, tack sharp, no
+> text, no watermarks, no logos.
